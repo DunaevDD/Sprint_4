@@ -5,6 +5,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import static org.junit.Assert.assertTrue;
+
 
 public class OrderPage {
     WebDriver webDriver;
@@ -43,7 +45,7 @@ public class OrderPage {
 
 
 
-    public void fillFields(String name, String lastname, String address, String telephoneNumber) {
+    public OrderPage fillFields(String name, String lastname, String address, String telephoneNumber) {
         webDriver.findElement(metroField).click();
         webDriver.findElement(chooseMetro).click();
         webDriver.findElement(nameField).sendKeys(name);
@@ -52,15 +54,20 @@ public class OrderPage {
         webDriver.findElement(telephoneNumberField).sendKeys(telephoneNumber);
         webDriver.findElement(buttonNext).click();
         new WebDriverWait(webDriver, 10).until(driver -> (driver.findElement(secondPage).isDisplayed()));
-
-
-
-
+        return this;
     }
 
-    public void fillFieldsRent(String date, String comment) {
+        public OrderPage checkSuccessFillFirstPageOrder(){
+            boolean isDisplayed  = webDriver.findElement(secondPage).isDisplayed();
+            assertTrue(isDisplayed);
+            return this;
+        }
 
-        webDriver.findElement(dateRent).sendKeys(date+"\n" );
+
+
+    public OrderPage fillFieldsRent(String date, String comment) {
+
+        webDriver.findElement(dateRent).sendKeys(date + "\n");
         webDriver.findElement(secondPage).click();
         webDriver.findElement(rentPeriodClick).click();
         webDriver.findElement(rentPeriodChoose).click();
@@ -70,7 +77,14 @@ public class OrderPage {
         new WebDriverWait(webDriver, 10).until(driver -> (driver.findElement(confirmOrder).isDisplayed()));
         webDriver.findElement(confirmOrder).click();
         new WebDriverWait(webDriver, 10).until(driver -> (driver.findElement(successOrder).isDisplayed()));
-
+        return this;
+    }
+        public OrderPage checkSuccessFillSecondPageOrder(){
+            boolean isDisplayed  = webDriver.findElement(successOrder).isDisplayed();
+            assertTrue(isDisplayed);
+            return this;
+        }
 
     }
-}
+
+
